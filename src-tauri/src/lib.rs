@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::sync::Mutex;
 
+use tauri::Manager;
 use serde_json::{Value};
 
 mod hermenia;
@@ -28,6 +29,8 @@ pub fn run() {
           reducers,
           Mutex::new(std::mem::take(&mut listeners)),
       );
+
+      app.manage(machine);
 
       Ok(())
     })
