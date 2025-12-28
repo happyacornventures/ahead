@@ -7,6 +7,16 @@ use serde_json::{Value};
 mod hermenia;
 use hermenia::{Machine};
 
+#[tauri::command]
+fn dispatch(
+    _app: tauri::AppHandle,
+    event: String,
+    payload: Option<String>,
+    machine: tauri::State<Machine>,
+) -> String {
+    machine.consume(event, payload)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
