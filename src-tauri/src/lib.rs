@@ -1,11 +1,38 @@
 use std::collections::HashMap;
 use std::sync::Mutex;
+use std::time::{SystemTime, UNIX_EPOCH};
 
-use serde_json::Value;
+use serde_json::{json, Value};
 use tauri::Manager;
+use uuid::Uuid;
 
 mod hermenia;
-use hermenia::{Machine};
+use hermenia::Machine;
+
+fn hydrate_event(event: String, payload: &str) -> Value {
+    let id = Uuid::new_v4().to_string();
+    let mut event_body: Value = serde_json::from_str(payload).unwrap();
+
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("Time went backwards")
+        .as_millis() as u64;
+
+    event_body
+        .as_object_mut()
+        .unwrap()
+        .insert("id".to_string(), json!(id));
+    event_body
+        .as_object_mut()
+        .unwrap()
+        .insert("createTime".to_string(), json!(timestamp));
+    event_body
+        .as_object_mut()
+        .unwrap()
+        .insert("type".to_string(), serde_json::Value::String(event));
+
+    event_body
+}
 
 #[tauri::command]
 fn dispatch(
