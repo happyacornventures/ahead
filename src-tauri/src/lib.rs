@@ -35,6 +35,20 @@ fn hydrate_event(event: String, payload: &str) -> Value {
 }
 
 fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
+    let mut new_state = state.clone();
+
+    match event {
+        "add_node" => {
+            let event_body = hydrate_event(event.to_string(), payload);
+            new_state
+                .as_object_mut()
+                .unwrap()
+                .insert(event_body["id"].as_str().unwrap().to_string(), event_body);
+        }
+        _ => {
+            println!("Unknown command: {}", event);
+        }
+    }
     state
 }
 
