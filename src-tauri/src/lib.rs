@@ -34,6 +34,10 @@ fn hydrate_event(event: String, payload: &str) -> Value {
     event_body
 }
 
+fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
+  state
+}
+
 #[tauri::command]
 fn dispatch(
     _app: tauri::AppHandle,
