@@ -35,7 +35,7 @@ fn hydrate_event(event: String, payload: &str) -> Value {
 }
 
 fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
-  state
+    state
 }
 
 #[tauri::command]
@@ -62,7 +62,11 @@ pub fn run() {
 
             let data: HashMap<String, Value> = HashMap::new();
             let mut listeners: Vec<Box<dyn Fn(&str, &Value) + Send + Sync>> = Vec::new();
-            let reducers: HashMap<String, (Value, fn(Value, &str, &str) -> Value)> = HashMap::from([("node".to_string(), (json!({}), node_reducer as fn(Value, &str, &str) -> Value))]);
+            let reducers: HashMap<String, (Value, fn(Value, &str, &str) -> Value)> =
+                HashMap::from([(
+                    "node".to_string(),
+                    (json!({}), node_reducer as fn(Value, &str, &str) -> Value),
+                )]);
 
             let machine = Machine::new(data, reducers, Mutex::new(std::mem::take(&mut listeners)));
 
