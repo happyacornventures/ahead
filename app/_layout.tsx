@@ -19,9 +19,17 @@ declare module 'tamagui' {
   interface TamaguiCustomConfig extends Conf {}
 }
 export default function RootLayout() {
-  return <Stack
-    screenOptions={{
-      headerShown: false, // This will hide the header for all screens
-    }}
-  />;
+  const colorScheme = useColorScheme()
+
+  return (
+    // add this
+    <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+      </ThemeProvider>
+    </TamaguiProvider>
+  )
 }
