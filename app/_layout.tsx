@@ -1,4 +1,7 @@
-import { Stack } from "expo-router";
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { Stack } from 'expo-router'
+import { useColorScheme } from 'react-native'
+import { TamaguiProvider } from 'tamagui'
 
 import { defaultConfig } from '@tamagui/config/v4'
 import { createTamagui } from 'tamagui'
