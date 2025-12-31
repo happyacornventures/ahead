@@ -1,5 +1,11 @@
 import { Text, View } from "react-native";
 
+import { Button } from 'tamagui';
+
+function Demo() {
+  return <Button theme="blue">Hello world</Button>
+}
+
 export default function Index() {
   return (
     <View
