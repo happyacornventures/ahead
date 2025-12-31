@@ -9,14 +9,10 @@ const tamaguiConfig = createTamagui(defaultConfig)
 
 type Conf = typeof tamaguiConfig
 
-// make imports typed
-declare module '@tamagui/core' {
-  interface TamaguiCustomConfig extends Conf {}
-}
-
 declare module 'tamagui' {
   interface TamaguiCustomConfig extends Conf {}
 }
+
 export default function RootLayout() {
   const colorScheme = useColorScheme()
 
