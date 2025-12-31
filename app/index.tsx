@@ -1,6 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
-import { Button } from 'tamagui';
+import { Button, Text } from 'tamagui';
 
 function Demo() {
   return <Button theme="blue">Hello world</Button>
