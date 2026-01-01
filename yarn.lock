@@ -2926,6 +2926,11 @@
   resolved "https://registry.yarnpkg.com/@tamagui/z-index-stack/-/z-index-stack-1.142.0.tgz#af75f8fc9ed39e31ac88e727bed6772a930609f3"
   integrity sha512-O7lWyRGX6b95rKdt7Wo3con8hfySCsbFe57DQXfGewN7Ca0mnmsdUa1kyzqjVf28PTE3MxoOAydr1qdDGGdmWw==
 
+"@tauri-apps/api@^2.9.1":
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/api/-/api-2.9.1.tgz#e539bfa437e53864fd5e7ed0f28e8217fbc74de1"
+  integrity sha512-IGlhP6EivjXHepbBic618GOmiWe4URJiIeZFlB7x3czM0yDHHYviH1Xvoiv4FefdkQtn6v7TuwWCRfOGdnVUGw==
+
 "@tauri-apps/cli-darwin-arm64@2.9.6":
   version "2.9.6"
   resolved "https://registry.yarnpkg.com/@tauri-apps/cli-darwin-arm64/-/cli-darwin-arm64-2.9.6.tgz#bb1576a6567db0d331e34d2322dc6aebde6681e8"
