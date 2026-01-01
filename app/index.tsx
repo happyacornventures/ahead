@@ -12,7 +12,6 @@ function Demo() {
 export default function Index() {
 
   useEffect(() => {
-    if (!(window as any).__TAURI__) return;
     invoke("dispatch", { event: "AppStarted" }).then(rsp => JSON.parse(rsp as string)).then(console.log).catch(console.error);
   });
 
