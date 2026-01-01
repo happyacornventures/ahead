@@ -60,6 +60,7 @@ fn dispatch(
     payload: Option<String>,
     machine: tauri::State<Machine>,
 ) -> String {
+    println!("Dispatching event: {}", event);
     machine.consume(event, payload)
 }
 
