@@ -38,7 +38,7 @@ fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
     let mut new_state = state.clone();
 
     match event {
-        "add_node" => {
+        "node_created" => {
             let event_body = hydrate_event(event.to_string(), payload);
             new_state
                 .as_object_mut()
