@@ -5,8 +5,10 @@ import { Button, ListItem, Text } from 'tamagui';
 import { invoke } from '@tauri-apps/api/core';
 import { useEffect, useState } from "react";
 
+const createNode = (slug: string) => invoke("dispatch", { event: "node_created", payload: JSON.stringify({ slug }) });
+
 function Demo() {
-  return <Button theme="blue">Hello world</Button>
+  return <Button theme="blue" onPress={() => createNode("example-slug")}>Hello world</Button>
 }
 
 export default function Index() {
