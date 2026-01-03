@@ -15,7 +15,7 @@ export default function Index() {
   const [nodes, setNodes] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
-    invoke("dispatch", { event: "AppStarted" }).then(rsp => JSON.parse(rsp as string)).then(setNodes).catch(console.error);
+    invoke("dispatch", { event: "AppStarted" }).then(rsp => JSON.parse(rsp as string)).then(data => setNodes(data?.node)).catch(console.error);
   }, []);
 
   return (
