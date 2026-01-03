@@ -27,7 +27,7 @@ export default function Index() {
       }}
     >
       <Text>Edit app/index.tsx to edit this screen.</Text>
-      {Object.values(nodes).map((node, index) => (<ListItem key={index}>{node}</ListItem>))}
+      {Object.values(nodes).map((node, index) => (<ListItem key={index}>{node?.slug}</ListItem>))}
       <Button theme="blue" onPress={() => createNode("example-slug").then(rsp => JSON.parse(rsp as string)).then(console.log)}>Hello world</Button>
     </View>
   );
