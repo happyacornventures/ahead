@@ -44,7 +44,7 @@ fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
                 .as_object_mut()
                 .unwrap()
                 .insert(event_body["id"].as_str().unwrap().to_string(), event_body);
-                return new_state
+            return new_state;
         }
         _ => {
             println!("Unknown command: {}", event);
