@@ -7,10 +7,6 @@ import { useEffect, useState } from "react";
 
 const createNode = (slug: string) => invoke("dispatch", { event: "node_created", payload: JSON.stringify({ slug }) });
 
-function Demo() {
-  return <Button theme="blue" onPress={() => createNode("example-slug")}>Hello world</Button>
-}
-
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, unknown>>({});
 
