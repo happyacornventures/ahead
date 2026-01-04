@@ -1,7 +1,6 @@
 import { Link } from "expo-router";
-import { View } from "react-native";
 
-import { Button, ListItem, Text } from 'tamagui';
+import { Button, ListItem, Text, View } from 'tamagui';
 
 import { invoke } from '@tauri-apps/api/core';
 import { useEffect, useState } from "react";
