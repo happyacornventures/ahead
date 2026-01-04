@@ -21,6 +21,7 @@ export default function RootLayout() {
       <Theme name="light">
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
       </Theme>
     </TamaguiProvider>
