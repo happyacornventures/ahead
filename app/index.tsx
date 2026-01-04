@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import { View } from "react-native";
 
 import { Button, ListItem, Text } from 'tamagui';
@@ -27,6 +28,9 @@ export default function Index() {
       }}
     >
       <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Link href="/modal" asChild>
+        <Button theme="green">Open Modal</Button>
+      </Link>
       {Object.values(nodes).map((node, index) => (<ListItem key={index}>{(node as Record<string, unknown>)?.slug}</ListItem>))}
       <Button theme="blue" onPress={() => createNode("example-slug").then(rsp => JSON.parse(rsp as string)).then(data => setNodes(data?.node))}>Hello world</Button>
     </View>
