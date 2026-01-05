@@ -51,6 +51,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
+
+      <SidebarSheet open={isSheetOpen} onOpenChange={setSheetOpen} />
+
       <Text>Edit app/index.tsx to edit this screen.</Text>
       <Link href="/modal" asChild>
         <Button theme="green">Open Modal</Button>
