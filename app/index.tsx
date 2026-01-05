@@ -51,10 +51,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-
       <SidebarSheet open={isSheetOpen} onOpenChange={setSheetOpen} />
-
-      <Text>Edit app/index.tsx to edit this screen.</Text>
       {Object.values(nodes).map((node, index) => (<ListItem key={index}>{(node as Record<string, unknown>)?.slug}</ListItem>))}
       <Button theme="blue" onPress={() => setSheetOpen(true)}>Hello world</Button>
     </View>
