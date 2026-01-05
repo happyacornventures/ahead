@@ -37,6 +37,7 @@ function SidebarSheet({ open, onOpenChange }) {
 
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, unknown>>({});
+  const [isSheetOpen, setSheetOpen] = useState(false);
 
   useEffect(() => {
     invoke("dispatch", { event: "AppStarted" }).then(rsp => JSON.parse(rsp as string)).then(data => setNodes(data?.node)).catch(console.error);
