@@ -7,6 +7,34 @@ import { useEffect, useState } from "react";
 
 const createNode = (slug: string) => invoke("dispatch", { event: "node_created", payload: JSON.stringify({ slug }) });
 
+function SidebarSheet({ open, onOpenChange }) {
+  return (
+    <Sheet
+      modal
+      open={open}
+      onOpenChange={onOpenChange}
+      snapPoints={[85]}
+      position={0}
+      onPositionChange={() => {}} // onPositionChange is required
+      dismissOnSnapToBottom
+    >
+      <Sheet.Overlay />
+      <Sheet.Frame ai="center" jc="center">
+        <Sheet.Handle />
+        <H2>Sidebar Form</H2>
+        <Paragraph>Put your form components here.</Paragraph>
+        <Button
+          size="$6"
+          circular
+          onPress={() => onOpenChange(false)}
+        >
+          Close
+        </Button>
+      </Sheet.Frame>
+    </Sheet>
+  );
+}
+
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, unknown>>({});
 
