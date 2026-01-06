@@ -1,6 +1,15 @@
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import { Button, H2, ListItem, Paragraph, Sheet, View } from "tamagui";
+import {
+  Button,
+  H2,
+  Input,
+  Label,
+  ListItem,
+  Paragraph,
+  Sheet,
+  View,
+} from "tamagui";
 
 const createNode = (slug: string) =>
   invoke("dispatch", {
@@ -24,7 +33,7 @@ const SidebarSheet = ({
       modal
       open={open}
       onOpenChange={onOpenChange}
-      snapPoints={[85]}
+      snapPoints={[100]}
       position={0}
       onPositionChange={() => {}} // onPositionChange is required
       dismissOnSnapToBottom
@@ -38,9 +47,21 @@ const SidebarSheet = ({
           Close
         </Button>
         <Label htmlFor="slug">slug</Label>
-        <Input value={slug} id="slug" size="$4" borderWidth={2} onChange={(e) => setSlug(e.currentTarget.value)} />
-        <Button size="$6" onPress={() => {
-          onSubmit(slug); setSlug(''); onOpenChange(false);}}>
+        <Input
+          value={slug}
+          id="slug"
+          size="$4"
+          borderWidth={2}
+          onChange={(e) => setSlug(e.currentTarget.value)}
+        />
+        <Button
+          size="$6"
+          onPress={() => {
+            onSubmit(slug);
+            setSlug("");
+            onOpenChange(false);
+          }}
+        >
           Create Node
         </Button>
       </Sheet.Frame>
