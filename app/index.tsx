@@ -1,9 +1,6 @@
-import { Link } from "expo-router";
-
-import { Button, ListItem, Text, View } from 'tamagui';
-
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
+import { Button, H2, ListItem, Paragraph, Sheet, View } from "tamagui";
 
 const createNode = (slug: string) => invoke("dispatch", { event: "node_created", payload: JSON.stringify({ slug }) });
 
@@ -51,9 +48,23 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <SidebarSheet open={isSheetOpen} onOpenChange={setSheetOpen} />
-      {Object.values(nodes).map((node, index) => (<ListItem key={index}>{(node as Record<string, unknown>)?.slug}</ListItem>))}
-      <Button theme="blue" onPress={() => setSheetOpen(true)}>Hello world</Button>
+      <SidebarSheet
+        open={isSheetOpen}
+        onOpenChange={setSheetOpen}
+        onSubmit={() =>
+          createNode("example-slug")
+            .then((rsp) => JSON.parse(rsp as string))
+            .then((data) => setNodes(data?.node))
+        }
+      />
+      {Object.values(nodes).map((node, index) => (
+        <ListItem key={index}>
+          {(node as Record<string, unknown>)?.slug}
+        </ListItem>
+      ))}
+      <Button theme="blue" onPress={() => setSheetOpen(true)}>
+        Hello world
+      </Button>
     </View>
   );
 }
