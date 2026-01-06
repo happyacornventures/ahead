@@ -15,8 +15,10 @@ const SidebarSheet = ({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: () => void;
+  onSubmit: (slug: string) => void;
 }) => {
+  const [slug, setSlug] = useState("");
+
   return (
     <Sheet
       modal
@@ -35,7 +37,10 @@ const SidebarSheet = ({
         <Button size="$6" onPress={() => onOpenChange(false)}>
           Close
         </Button>
-        <Button size="$6" onPress={onSubmit}>
+        <Label htmlFor="slug">slug</Label>
+        <Input value={slug} id="slug" size="$4" borderWidth={2} onChange={(e) => setSlug(e.currentTarget.value)} />
+        <Button size="$6" onPress={() => {
+          onSubmit(slug); setSlug(''); onOpenChange(false);}}>
           Create Node
         </Button>
       </Sheet.Frame>
@@ -65,8 +70,8 @@ export default function Index() {
       <SidebarSheet
         open={isSheetOpen}
         onOpenChange={setSheetOpen}
-        onSubmit={() =>
-          createNode("example-slug")
+        onSubmit={(slug) =>
+          createNode(slug)
             .then((rsp) => JSON.parse(rsp as string))
             .then((data) => setNodes(data?.node))
         }
