@@ -21,10 +21,12 @@ const SidebarSheet = ({
   open,
   onOpenChange,
   onSubmit,
+  node
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (slug: string) => void;
+  node: Record<string, unknown> | null;
 }) => {
   const [slug, setSlug] = useState("");
 
@@ -46,6 +48,9 @@ const SidebarSheet = ({
         <Button size="$6" onPress={() => onOpenChange(false)}>
           Close
         </Button>
+        {node && (
+          Object.entries(node).map(([key, value]) => (<ListItem key={key}>{`${key}: ${value}`}</ListItem>))
+        )}
         <Label htmlFor="slug">slug</Label>
         <Input
           value={slug}
@@ -97,6 +102,7 @@ export default function Index() {
             .then((rsp) => JSON.parse(rsp as string))
             .then((data) => setNodes(data?.node))
         }
+        node={activeNode ? nodes[activeNode] : null}
       />
       {Object.values(nodes).map((node: Record<string, unknown>, index: number) => (
         <ListItem
