@@ -96,7 +96,10 @@ export default function Index() {
     >
       <SidebarSheet
         open={isSheetOpen}
-        onOpenChange={setSheetOpen}
+        onOpenChange={(arg) => {
+          setSheetOpen(arg);
+          setActiveNode(null);
+        }}
         onSubmit={(slug) =>
           createNode(slug)
             .then((rsp) => JSON.parse(rsp as string))
