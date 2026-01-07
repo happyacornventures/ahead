@@ -52,7 +52,7 @@ const SidebarSheet = ({
           id="slug"
           size="$4"
           borderWidth={2}
-          onChange={(e) => setSlug(e.currentTarget.value)}
+          onChange={(e) => setSlug((e.currentTarget as HTMLInputElement).value)}
         />
         <Button
           size="$6"
@@ -70,7 +70,7 @@ const SidebarSheet = ({
 };
 
 export default function Index() {
-  const [nodes, setNodes] = useState<Record<string, unknown>>({});
+  const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>({});
   const [isSheetOpen, setSheetOpen] = useState(false);
 
   useEffect(() => {
