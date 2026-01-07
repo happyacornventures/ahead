@@ -72,6 +72,7 @@ const SidebarSheet = ({
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>({});
   const [isSheetOpen, setSheetOpen] = useState(false);
+  const [activeNode, setActiveNode] = useState<string | null>(null);
 
   useEffect(() => {
     invoke("dispatch", { event: "AppStarted" })
@@ -97,8 +98,16 @@ export default function Index() {
             .then((data) => setNodes(data?.node))
         }
       />
-      {Object.values(nodes).map((node, index) => (
-        <ListItem key={index}>
+      {Object.values(nodes).map((node: Record<string, unknown>, index: number) => (
+        <ListItem
+          hoverTheme
+          pressTheme
+          key={index}
+          onPress={() => {
+            setActiveNode(node?.id as string);
+            setSheetOpen(true);
+          }}
+        >
           {(node as Record<string, unknown>)?.slug}
         </ListItem>
       ))}
