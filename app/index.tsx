@@ -53,7 +53,7 @@ const SidebarSheet = ({
         )}
         <Label htmlFor="slug">slug</Label>
         <Input
-          value={slug}
+          value={slug.length > 0 ? slug : (node?.slug as string ?? slug)}
           id="slug"
           size="$4"
           borderWidth={2}
