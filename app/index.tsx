@@ -27,7 +27,7 @@ const SidebarSheet = ({
   open,
   onOpenChange,
   onSubmit,
-  node
+  node,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -54,12 +54,13 @@ const SidebarSheet = ({
         <Button size="$6" onPress={() => onOpenChange(false)}>
           Close
         </Button>
-        {node && (
-          Object.entries(node).map(([key, value]) => (<ListItem key={key}>{`${key}: ${value}`}</ListItem>))
-        )}
+        {node &&
+          Object.entries(node).map(([key, value]) => (
+            <ListItem key={key}>{`${key}: ${value}`}</ListItem>
+          ))}
         <Label htmlFor="slug">slug</Label>
         <Input
-          value={slug.length > 0 ? slug : (node?.slug as string ?? slug)}
+          value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
           id="slug"
           size="$4"
           borderWidth={2}
@@ -81,7 +82,9 @@ const SidebarSheet = ({
 };
 
 export default function Index() {
-  const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>({});
+  const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>(
+    {},
+  );
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [activeNode, setActiveNode] = useState<string | null>(null);
 
@@ -106,26 +109,31 @@ export default function Index() {
           setSheetOpen(arg);
           setActiveNode(null);
         }}
-        onSubmit={activeNode ? slug => console.log ({id: activeNode, slug }) : (slug) =>
-          createNode(slug)
-            .then((rsp) => JSON.parse(rsp as string))
-            .then((data) => setNodes(data?.node))
+        onSubmit={
+          activeNode
+            ? (slug) => console.log({ id: activeNode, slug })
+            : (slug) =>
+                createNode(slug)
+                  .then((rsp) => JSON.parse(rsp as string))
+                  .then((data) => setNodes(data?.node))
         }
         node={activeNode ? nodes[activeNode] : null}
       />
-      {Object.values(nodes).map((node: Record<string, unknown>, index: number) => (
-        <ListItem
-          hoverTheme
-          pressTheme
-          key={index}
-          onPress={() => {
-            setActiveNode(node?.id as string);
-            setSheetOpen(true);
-          }}
-        >
-          {(node as Record<string, unknown>)?.slug}
-        </ListItem>
-      ))}
+      {Object.values(nodes).map(
+        (node: Record<string, unknown>, index: number) => (
+          <ListItem
+            hoverTheme
+            pressTheme
+            key={index}
+            onPress={() => {
+              setActiveNode(node?.id as string);
+              setSheetOpen(true);
+            }}
+          >
+            {(node as Record<string, unknown>)?.slug}
+          </ListItem>
+        ),
+      )}
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
         Hello world
       </Button>
