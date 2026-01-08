@@ -17,6 +17,12 @@ const createNode = (slug: string) =>
     payload: JSON.stringify({ slug }),
   });
 
+const updateNode = (node: Record<string, unknown>) =>
+  invoke("dispatch", {
+    event: "node_updated",
+    payload: JSON.stringify(node),
+  });
+
 const SidebarSheet = ({
   open,
   onOpenChange,
