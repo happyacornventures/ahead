@@ -100,7 +100,7 @@ export default function Index() {
           setSheetOpen(arg);
           setActiveNode(null);
         }}
-        onSubmit={(slug) =>
+        onSubmit={activeNode ? slug => console.log ({id: activeNode, slug }) : (slug) =>
           createNode(slug)
             .then((rsp) => JSON.parse(rsp as string))
             .then((data) => setNodes(data?.node))
