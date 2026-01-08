@@ -67,7 +67,7 @@ const SidebarSheet = ({
             onOpenChange(false);
           }}
         >
-          Create Node
+          {node ? "Update" : "Create"} Node
         </Button>
       </Sheet.Frame>
     </Sheet>
