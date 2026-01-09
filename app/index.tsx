@@ -111,7 +111,10 @@ export default function Index() {
         }}
         onSubmit={
           activeNode
-            ? (slug) => console.log({ id: activeNode, slug })
+            ? (slug) =>
+                updateNode({ id: activeNode, slug })
+                  .then((rsp) => JSON.parse(rsp as string))
+                  .then((data) => setNodes(data?.node))
             : (slug) =>
                 createNode(slug)
                   .then((rsp) => JSON.parse(rsp as string))
