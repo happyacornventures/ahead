@@ -23,6 +23,12 @@ const updateNode = (node: Record<string, unknown>) =>
     payload: JSON.stringify(node),
   });
 
+const deleteNode = (id: string) =>
+  invoke("dispatch", {
+    event: "node_deleted",
+    payload: JSON.stringify({ id }),
+  });
+
 const SidebarSheet = ({
   open,
   onOpenChange,
