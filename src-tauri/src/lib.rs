@@ -46,6 +46,22 @@ fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
                 .insert(event_body["id"].as_str().unwrap().to_string(), event_body);
             return new_state;
         }
+        "node_updated" => {
+            let event_body = hydrate_event(event.to_string(), payload);
+            let payload_value: Value = serde_json::from_str(payload).unwrap();
+            let node_id = payload_value["id"].as_str().unwrap().to_string();
+            let mut existing_node = new_state[node_id.clone()].as_object_mut().unwrap().clone();
+
+            if let Value::Object(payload_map) = payload_value {
+                existing_node.extend(payload_map);
+            }
+
+            new_state
+                .as_object_mut()
+                .unwrap()
+                .insert(node_id.clone(), existing_node.into());
+            return new_state;
+        }
         _ => {
             println!("Unknown command: {}", event);
         }
