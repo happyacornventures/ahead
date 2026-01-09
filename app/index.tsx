@@ -8,7 +8,9 @@ import {
   ListItem,
   Paragraph,
   Sheet,
+  Text,
   View,
+  XStack,
 } from "tamagui";
 
 const createNode = (slug: string) =>
@@ -128,21 +130,33 @@ export default function Index() {
         }
         node={activeNode ? nodes[activeNode] : null}
       />
-      {Object.values(nodes).map(
-        (node: Record<string, unknown>, index: number) => (
-          <ListItem
-            hoverTheme
-            pressTheme
-            key={index}
-            onPress={() => {
-              setActiveNode(node?.id as string);
-              setSheetOpen(true);
-            }}
-          >
-            {(node as Record<string, unknown>)?.slug}
-          </ListItem>
-        ),
-      )}
+      {Object.values(nodes).map((node: Record<string, unknown>) => (
+        <ListItem
+          hoverTheme
+          pressTheme
+          key={node.id as string}
+          onPress={() => {
+            setActiveNode(node?.id as string);
+            setSheetOpen(true);
+          }}
+        >
+          <XStack flex={1} justifyContent="space-between" alignItems="center">
+            <Text>{(node as Record<string, unknown>)?.slug}</Text>
+            <Button
+              theme="red"
+              size="$2"
+              onPress={(e) => {
+                e.stopPropagation();
+                deleteNode(node.id as string)
+                  .then((rsp) => JSON.parse(rsp as string))
+                  .then((data) => setNodes(data?.node));
+              }}
+            >
+              Delete
+            </Button>
+          </XStack>
+        </ListItem>
+      ))}
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
         Hello world
       </Button>
