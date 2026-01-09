@@ -62,6 +62,14 @@ fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
                 .insert(node_id.clone(), existing_node.into());
             return new_state;
         }
+        "node_deleted" => {
+            let event_body = hydrate_event(event.to_string(), payload);
+            let payload_value: Value = serde_json::from_str(payload).unwrap();
+            let node_id = payload_value["id"].as_str().unwrap().to_string();
+
+            new_state.as_object_mut().unwrap().remove(&node_id.clone());
+            return new_state;
+        }
         _ => {
             println!("Unknown command: {}", event);
         }
