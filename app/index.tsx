@@ -2,6 +2,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import {
   Button,
+  Form,
   H2,
   Input,
   Label,
@@ -59,6 +60,38 @@ const FormField = ({
     />
   </YStack>
 );
+
+const BaseForm = ({
+  schema,
+  onSubmit,
+}: {
+  schema: Record<string, unknown>;
+  onSubmit: (values: Record<string, unknown>) => void;
+}) => {
+  const [formData, setFormData] = useState<Record<string, unknown>>({});
+
+  const handleChange = (key: string, value: unknown) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  return (
+    <Form onSubmit={() => onSubmit(formData)}>
+      {schema.properties &&
+        Object.entries(schema.properties).map(([key, property]) => (
+          <FormField
+            key={key}
+            title={property.title || key}
+            type={property.type || "text"}
+            value={formData[key] || ""}
+            handleChange={handleChange}
+          />
+        ))}
+      <Form.Trigger asChild>
+        <Button marginTop="$4">{schema.submitText || "Submit"}</Button>
+      </Form.Trigger>
+    </Form>
+  );
+};
 
 const SidebarSheet = ({
   open,
