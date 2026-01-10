@@ -11,6 +11,7 @@ import {
   Text,
   View,
   XStack,
+  YStack
 } from "tamagui";
 
 const createNode = (slug: string) =>
@@ -30,6 +31,23 @@ const deleteNode = (id: string) =>
     event: "node_deleted",
     payload: JSON.stringify({ id }),
   });
+
+const FormField = ({ key, title, type, value, handleChange }: {key: string; title: string; type: string; value: unknown; handleChange: (key: string, value: unknown) => void}) => (
+          <YStack key={key} gap="$2" marginVertical="$2">
+            <Label htmlFor={key}>{title}</Label>
+            <Input
+              id={key}
+              value={(value as string) || ""}
+              // onChangeText={(value) => handleChange(key, value)}
+              onChange={(e) => handleChange(key, (e.currentTarget as HTMLInputElement).value)}
+              keyboardType={
+                type === "number" || type === "integer"
+                  ? "numeric"
+                  : "default"
+              }
+            />
+          </YStack>
+)
 
 const SidebarSheet = ({
   open,
