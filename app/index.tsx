@@ -50,7 +50,6 @@ const FormField = ({
     <Input
       id={key}
       value={(value as string) || ""}
-      // onChangeText={(value) => handleChange(key, value)}
       onChange={(e) =>
         handleChange(key, (e.currentTarget as HTMLInputElement).value)
       }
@@ -96,14 +95,6 @@ const SidebarSheet = ({
           Object.entries(node).map(([key, value]) => (
             <ListItem key={key}>{`${key}: ${value}`}</ListItem>
           ))}
-        {/* <Label htmlFor="slug">slug</Label> */}
-        {/* <Input
-          value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
-          id="slug"
-          size="$4"
-          borderWidth={2}
-          onChange={(e) => setSlug((e.currentTarget as HTMLInputElement).value)}
-        /> */}
         <FormField
           key="slug"
           title="slug"
