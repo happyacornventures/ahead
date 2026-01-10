@@ -11,7 +11,7 @@ import {
   Text,
   View,
   XStack,
-  YStack
+  YStack,
 } from "tamagui";
 
 const createNode = (slug: string) =>
@@ -84,13 +84,20 @@ const SidebarSheet = ({
           Object.entries(node).map(([key, value]) => (
             <ListItem key={key}>{`${key}: ${value}`}</ListItem>
           ))}
-        <Label htmlFor="slug">slug</Label>
-        <Input
+        {/* <Label htmlFor="slug">slug</Label> */}
+        {/* <Input
           value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
           id="slug"
           size="$4"
           borderWidth={2}
           onChange={(e) => setSlug((e.currentTarget as HTMLInputElement).value)}
+        /> */}
+        <FormField
+          key="slug"
+          title="slug"
+          type="text"
+          value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
+          handleChange={(key, value) => setSlug(value as string)}
         />
         <Button
           size="$6"
