@@ -32,22 +32,34 @@ const deleteNode = (id: string) =>
     payload: JSON.stringify({ id }),
   });
 
-const FormField = ({ key, title, type, value, handleChange }: {key: string; title: string; type: string; value: unknown; handleChange: (key: string, value: unknown) => void}) => (
-          <YStack key={key} gap="$2" marginVertical="$2">
-            <Label htmlFor={key}>{title}</Label>
-            <Input
-              id={key}
-              value={(value as string) || ""}
-              // onChangeText={(value) => handleChange(key, value)}
-              onChange={(e) => handleChange(key, (e.currentTarget as HTMLInputElement).value)}
-              keyboardType={
-                type === "number" || type === "integer"
-                  ? "numeric"
-                  : "default"
-              }
-            />
-          </YStack>
-)
+const FormField = ({
+  key,
+  title,
+  type,
+  value,
+  handleChange,
+}: {
+  key: string;
+  title: string;
+  type: string;
+  value: unknown;
+  handleChange: (key: string, value: unknown) => void;
+}) => (
+  <YStack key={key} gap="$2" marginVertical="$2">
+    <Label htmlFor={key}>{title}</Label>
+    <Input
+      id={key}
+      value={(value as string) || ""}
+      // onChangeText={(value) => handleChange(key, value)}
+      onChange={(e) =>
+        handleChange(key, (e.currentTarget as HTMLInputElement).value)
+      }
+      keyboardType={
+        type === "number" || type === "integer" ? "numeric" : "default"
+      }
+    />
+  </YStack>
+);
 
 const SidebarSheet = ({
   open,
