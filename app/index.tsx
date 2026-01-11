@@ -7,7 +7,6 @@ import {
   Input,
   Label,
   ListItem,
-  Paragraph,
   Sheet,
   Text,
   View,
@@ -51,10 +50,9 @@ const FormField = ({
     <Input
       id={fieldKey}
       value={(value as string) || ""}
-      onChange={(e) => {
-        console.log("change made", fieldKey, (e.currentTarget as HTMLInputElement).value);
+      onChange={(e) =>
         handleChange(fieldKey, (e.currentTarget as HTMLInputElement).value)
-      }}
+      }
       keyboardType={
         type === "number" || type === "integer" ? "numeric" : "default"
       }
@@ -105,53 +103,45 @@ const SidebarSheet = ({
   onOpenChange: (open: boolean) => void;
   onSubmit: (slug: string) => void;
   node: Record<string, unknown> | null;
-}) => {
-  const [slug, setSlug] = useState("");
-
-  return (
-    <Sheet
-      modal
-      open={open}
-      onOpenChange={onOpenChange}
-      snapPoints={[100]}
-      position={0}
-      onPositionChange={() => {}} // onPositionChange is required
-      dismissOnSnapToBottom
-    >
-      <Sheet.Overlay />
-      <Sheet.Frame ai="center" jc="center">
-        <Sheet.Handle />
-        <H2>Sidebar Form</H2>
-        <Paragraph>Put your form components here.</Paragraph>
-        <Button size="$6" onPress={() => onOpenChange(false)}>
-          Close
-        </Button>
-        {node &&
-          Object.entries(node).map(([key, value]) => (
-            <ListItem key={key}>{`${key}: ${value}`}</ListItem>
-          ))}
-        <FormField
-          key="slug"
-          title="slug"
-          type="text"
-          value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
-          handleChange={(key, value) => setSlug(value as string)}
-        />
-        <BaseForm schema={{properties: {"slug": {type: "string", title: "Slug", value: slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}}}} onSubmit={(values) => { onSubmit(values.slug as string); onOpenChange(false); }} />
-        <Button
-          size="$6"
-          onPress={() => {
-            onSubmit(slug);
-            setSlug("");
-            onOpenChange(false);
-          }}
-        >
-          {node ? "Update" : "Create"} Node
-        </Button>
-      </Sheet.Frame>
-    </Sheet>
-  );
-};
+}) => (
+  <Sheet
+    modal
+    open={open}
+    onOpenChange={onOpenChange}
+    snapPoints={[100]}
+    position={0}
+    onPositionChange={() => {}} // onPositionChange is required
+    dismissOnSnapToBottom
+  >
+    <Sheet.Overlay />
+    <Sheet.Frame ai="center" jc="center">
+      <Sheet.Handle />
+      <H2>Sidebar Form</H2>
+      <Button size="$6" onPress={() => onOpenChange(false)}>
+        Close
+      </Button>
+      {node &&
+        Object.entries(node).map(([key, value]) => (
+          <ListItem key={key}>{`${key}: ${value}`}</ListItem>
+        ))}
+      <BaseForm
+        schema={{
+          properties: {
+            slug: {
+              type: "string",
+              title: "Slug",
+              value: (node?.slug as string) ?? "",
+            },
+          },
+        }}
+        onSubmit={(values) => {
+          onSubmit(values.slug as string);
+          onOpenChange(false);
+        }}
+      />
+    </Sheet.Frame>
+  </Sheet>
+);
 
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>(
