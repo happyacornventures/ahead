@@ -34,26 +34,27 @@ const deleteNode = (id: string) =>
   });
 
 const FormField = ({
-  key,
+  fieldKey,
   title,
   type,
   value,
   handleChange,
 }: {
-  key: string;
+  fieldKey: string;
   title: string;
   type: string;
   value: unknown;
   handleChange: (key: string, value: unknown) => void;
 }) => (
-  <YStack key={key} gap="$2" marginVertical="$2">
-    <Label htmlFor={key}>{title}</Label>
+  <YStack key={fieldKey} gap="$2" marginVertical="$2">
+    <Label htmlFor={fieldKey}>{title}</Label>
     <Input
-      id={key}
+      id={fieldKey}
       value={(value as string) || ""}
-      onChange={(e) =>
-        handleChange(key, (e.currentTarget as HTMLInputElement).value)
-      }
+      onChange={(e) => {
+        console.log("change made", fieldKey, (e.currentTarget as HTMLInputElement).value);
+        handleChange(fieldKey, (e.currentTarget as HTMLInputElement).value)
+      }}
       keyboardType={
         type === "number" || type === "integer" ? "numeric" : "default"
       }
@@ -80,6 +81,7 @@ const BaseForm = ({
         Object.entries(schema.properties).map(([key, property]) => (
           <FormField
             key={key}
+            fieldKey={key}
             title={property.title || key}
             type={property.type || "text"}
             value={formData[key] || ""}
