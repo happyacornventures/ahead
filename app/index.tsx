@@ -84,7 +84,7 @@ const BaseForm = ({
             fieldKey={key}
             title={property.title || key}
             type={property.type || "text"}
-            value={formData[key] || ""}
+            value={formData[key] || property.value || ""}
             handleChange={handleChange}
           />
         ))}
@@ -137,7 +137,7 @@ const SidebarSheet = ({
           value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
           handleChange={(key, value) => setSlug(value as string)}
         />
-        <BaseForm schema={{properties: {"slug": {type: "string", title: "Slug"}}}} onSubmit={(values) => console.log(values)} />
+        <BaseForm schema={{properties: {"slug": {type: "string", title: "Slug", value: slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}}}} onSubmit={(values) => console.log(values)} />
         <Button
           size="$6"
           onPress={() => {
