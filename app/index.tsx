@@ -137,7 +137,7 @@ const SidebarSheet = ({
           value={slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}
           handleChange={(key, value) => setSlug(value as string)}
         />
-        <BaseForm schema={{properties: {"slug": {type: "string", title: "Slug", value: slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}}}} onSubmit={(values) => console.log(values)} />
+        <BaseForm schema={{properties: {"slug": {type: "string", title: "Slug", value: slug.length > 0 ? slug : ((node?.slug as string) ?? slug)}}}} onSubmit={(values) => { onSubmit(values.slug as string); onOpenChange(false); }} />
         <Button
           size="$6"
           onPress={() => {
