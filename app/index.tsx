@@ -131,6 +131,7 @@ const SidebarSheet = ({
         ))}
       <BaseForm
         schema={{
+          title: node ? "Edit Node" : "Create Node",
           properties: {
             slug: {
               type: "string",
