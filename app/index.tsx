@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Form,
+  H2,
   Input,
   Label,
   ListItem,
@@ -73,7 +74,8 @@ const BaseForm = ({
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  return (
+  return (<>
+    {schema.title && (<H2>{schema.title}</H2>)}
     <Form onSubmit={() => onSubmit(formData)}>
       {schema.properties &&
         Object.entries(schema.properties).map(([key, property]) => (
@@ -90,7 +92,7 @@ const BaseForm = ({
         <Button marginTop="$4">{schema.submitText || "Submit"}</Button>
       </Form.Trigger>
     </Form>
-  );
+  </>);
 };
 
 const SidebarSheet = ({
