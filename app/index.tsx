@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Form,
-  H2,
   Input,
   Label,
   ListItem,
@@ -12,7 +11,7 @@ import {
   Text,
   View,
   XStack,
-  YStack,
+  YStack
 } from "tamagui";
 
 const createNode = (slug: string) =>
@@ -117,7 +116,6 @@ const SidebarSheet = ({
     <Sheet.Overlay />
     <Sheet.Frame ai="center" jc="center">
       <Sheet.Handle />
-      <H2>Sidebar Form</H2>
       <Button
         position="absolute"
         top="$3"
