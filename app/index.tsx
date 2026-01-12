@@ -1,3 +1,4 @@
+import { X } from "@tamagui/lucide-icons";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import {
@@ -117,9 +118,15 @@ const SidebarSheet = ({
     <Sheet.Frame ai="center" jc="center">
       <Sheet.Handle />
       <H2>Sidebar Form</H2>
-      <Button size="$6" onPress={() => onOpenChange(false)}>
-        Close
-      </Button>
+      <Button
+        position="absolute"
+        top="$3"
+        right="$3"
+        size="$2"
+        circular
+        icon={X}
+        onPress={() => onOpenChange(false)}
+      />
       {node &&
         Object.entries(node).map(([key, value]) => (
           <ListItem key={key}>{`${key}: ${value}`}</ListItem>
