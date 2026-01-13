@@ -215,6 +215,7 @@ export default function Index() {
         node={activeNode ? nodes[activeNode] : null}
       />
       {Object.values(nodes).map((node: Record<string, unknown>) => (
+        <>
         <ListItem
           hoverTheme
           pressTheme
@@ -240,6 +241,11 @@ export default function Index() {
             </Button>
           </XStack>
         </ListItem>
+        <BaseListItem key={node.id as string} node={{...node, onPress: () => {
+            setActiveNode(node?.id as string);
+            setSheetOpen(true);
+          }}} />
+        </>
       ))}
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
         Hello world
