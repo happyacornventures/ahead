@@ -1,6 +1,7 @@
 import { X } from "@tamagui/lucide-icons";
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
+import { GestureResponderEvent } from "react-native";
 import {
   Button,
   Form,
@@ -244,7 +245,12 @@ export default function Index() {
         <BaseListItem key={node.id as string} node={{...node, onPress: () => {
             setActiveNode(node?.id as string);
             setSheetOpen(true);
-          }}} />
+          }, actions: {delete: (e: GestureResponderEvent) => {
+                e.stopPropagation();
+                deleteNode(node.id as string)
+                  .then((rsp) => JSON.parse(rsp as string))
+                  .then((data) => setNodes(data?.node));
+              }}}} />
         </>
       ))}
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
