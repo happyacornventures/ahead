@@ -151,6 +151,28 @@ const SidebarSheet = ({
   </Sheet>
 );
 
+const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
+  <ListItem
+    hoverTheme
+    pressTheme
+    key={node.id as string}
+    onPress={node.onPress as () => void ?? (() => {})}
+  >
+    <XStack flex={1} justifyContent="space-between" alignItems="center">
+      <Text>{(node as Record<string, unknown>)?.slug}</Text>
+      {node.actions && Object.entries(node.actions).map(([key, action]) => (
+        <Button
+          theme="red"
+          size="$2"
+          onPress={action as (e: unknown) => void}
+        >
+          {key}
+        </Button>
+      ))}
+    </XStack>
+  </ListItem>
+);
+
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>(
     {},
