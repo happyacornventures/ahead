@@ -33,7 +33,7 @@ const deleteNode = (id: string) =>
     payload: JSON.stringify({ id }),
   });
 
-const FormField = ({
+const BaseFormField = ({
   fieldKey,
   title,
   type,
@@ -79,7 +79,7 @@ const BaseForm = ({
     <Form onSubmit={() => onSubmit(formData)}>
       {schema.properties &&
         Object.entries(schema.properties).map(([key, property]) => (
-          <FormField
+          <BaseFormField
             key={key}
             fieldKey={key}
             title={property.title || key}
