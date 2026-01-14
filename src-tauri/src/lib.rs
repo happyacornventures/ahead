@@ -101,7 +101,7 @@ pub fn run() {
             }
 
             let data: HashMap<String, Value> = HashMap::from([("node".to_string(), json!({}))]);
-            let mut listeners: Vec<Box<dyn Fn(&str, &Value) + Send + Sync>> = Vec::new();
+            let mut listeners: Vec<Box<dyn Fn(&str, &Value, &str, &Value) + Send + Sync>> = Vec::new();
             let reducers: HashMap<String, (Value, fn(Value, &str, &str) -> Value)> =
                 HashMap::from([(
                     "node".to_string(),
