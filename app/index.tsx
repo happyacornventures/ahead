@@ -177,6 +177,14 @@ const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
   </ListItem>
 );
 
+const BaseList = ({ nodes, ...styles }: { nodes: Record<string, unknown>[] } & Record<string, unknown>) => (
+  <View {...styles}>
+    {nodes.map((node) => (
+      <BaseListItem key={node.id as string} node={node} />
+    ))}
+  </View>
+);
+
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>(
     {},
@@ -240,6 +248,7 @@ export default function Index() {
         />
       ))}
       {/* </View> */}
+      <BaseList nodes={Object.values(nodes).map(node => ({...node, onPress: () => {}, actions: {delete: () => {}}}))} width="100%" />
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
         Hello world
       </Button>
