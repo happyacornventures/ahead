@@ -13,7 +13,7 @@ import {
   Text,
   View,
   XStack,
-  YStack
+  YStack,
 } from "tamagui";
 
 const createNode = (slug: string) =>
@@ -75,25 +75,27 @@ const BaseForm = ({
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  return (<>
-    {schema.title && (<H2>{schema.title}</H2>)}
-    <Form onSubmit={() => onSubmit(formData)}>
-      {schema.properties &&
-        Object.entries(schema.properties).map(([key, property]) => (
-          <BaseFormField
-            key={key}
-            fieldKey={key}
-            title={property.title || key}
-            type={property.type || "text"}
-            value={formData[key] || property.value || ""}
-            handleChange={handleChange}
-          />
-        ))}
-      <Form.Trigger asChild>
-        <Button marginTop="$4">{schema.submitText || "Submit"}</Button>
-      </Form.Trigger>
-    </Form>
-  </>);
+  return (
+    <>
+      {schema.title && <H2>{schema.title}</H2>}
+      <Form onSubmit={() => onSubmit(formData)}>
+        {schema.properties &&
+          Object.entries(schema.properties).map(([key, property]) => (
+            <BaseFormField
+              key={key}
+              fieldKey={key}
+              title={property.title || key}
+              type={property.type || "text"}
+              value={formData[key] || property.value || ""}
+              handleChange={handleChange}
+            />
+          ))}
+        <Form.Trigger asChild>
+          <Button marginTop="$4">{schema.submitText || "Submit"}</Button>
+        </Form.Trigger>
+      </Form>
+    </>
+  );
 };
 
 const SidebarSheet = ({
@@ -157,19 +159,20 @@ const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
     hoverTheme
     pressTheme
     key={node.id as string}
-    onPress={node.onPress as () => void ?? (() => {})}
+    onPress={(node.onPress as () => void) ?? (() => {})}
   >
     <XStack flex={1} justifyContent="space-between" alignItems="center">
       <Text>{(node as Record<string, unknown>)?.slug}</Text>
-      {node.actions && Object.entries(node.actions).map(([key, action]) => (
-        <Button
-          theme="red"
-          size="$2"
-          onPress={action as (e: unknown) => void}
-        >
-          {key}
-        </Button>
-      ))}
+      {node.actions &&
+        Object.entries(node.actions).map(([key, action]) => (
+          <Button
+            theme="red"
+            size="$2"
+            onPress={action as (e: unknown) => void}
+          >
+            {key}
+          </Button>
+        ))}
     </XStack>
   </ListItem>
 );
@@ -215,44 +218,28 @@ export default function Index() {
         }
         node={activeNode ? nodes[activeNode] : null}
       />
+      {/* <View w="100%"> */}
       {Object.values(nodes).map((node: Record<string, unknown>) => (
-        <>
-        <ListItem
-          hoverTheme
-          pressTheme
+        <BaseListItem
           key={node.id as string}
-          onPress={() => {
-            setActiveNode(node?.id as string);
-            setSheetOpen(true);
+          node={{
+            ...node,
+            onPress: () => {
+              setActiveNode(node?.id as string);
+              setSheetOpen(true);
+            },
+            actions: {
+              delete: (e: GestureResponderEvent) => {
+                e.stopPropagation();
+                deleteNode(node.id as string)
+                  .then((rsp) => JSON.parse(rsp as string))
+                  .then((data) => setNodes(data?.node));
+              },
+            },
           }}
-        >
-          <XStack flex={1} justifyContent="space-between" alignItems="center">
-            <Text>{(node as Record<string, unknown>)?.slug}</Text>
-            <Button
-              theme="red"
-              size="$2"
-              onPress={(e) => {
-                e.stopPropagation();
-                deleteNode(node.id as string)
-                  .then((rsp) => JSON.parse(rsp as string))
-                  .then((data) => setNodes(data?.node));
-              }}
-            >
-              Delete
-            </Button>
-          </XStack>
-        </ListItem>
-        <BaseListItem key={node.id as string} node={{...node, onPress: () => {
-            setActiveNode(node?.id as string);
-            setSheetOpen(true);
-          }, actions: {delete: (e: GestureResponderEvent) => {
-                e.stopPropagation();
-                deleteNode(node.id as string)
-                  .then((rsp) => JSON.parse(rsp as string))
-                  .then((data) => setNodes(data?.node));
-              }}}} />
-        </>
+        />
       ))}
+      {/* </View> */}
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
         Hello world
       </Button>
