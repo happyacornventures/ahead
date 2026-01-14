@@ -177,7 +177,10 @@ const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
   </ListItem>
 );
 
-const BaseList = ({ nodes, ...styles }: { nodes: Record<string, unknown>[] } & Record<string, unknown>) => (
+const BaseList = ({
+  nodes,
+  ...styles
+}: { nodes: Record<string, unknown>[] } & Record<string, unknown>) => (
   <View {...styles}>
     {nodes.map((node) => (
       <BaseListItem key={node.id as string} node={node} />
@@ -226,29 +229,24 @@ export default function Index() {
         }
         node={activeNode ? nodes[activeNode] : null}
       />
-      {/* <View w="100%"> */}
-      {Object.values(nodes).map((node: Record<string, unknown>) => (
-        <BaseListItem
-          key={node.id as string}
-          node={{
-            ...node,
-            onPress: () => {
-              setActiveNode(node?.id as string);
-              setSheetOpen(true);
+      <BaseList
+        nodes={Object.values(nodes).map((node) => ({
+          ...node,
+          onPress: () => {
+            setActiveNode(node.id as string);
+            setSheetOpen(true);
+          },
+          actions: {
+            delete: (e: GestureResponderEvent) => {
+              e.stopPropagation();
+              deleteNode(node.id as string)
+                .then((rsp) => JSON.parse(rsp as string))
+                .then((data) => setNodes(data?.node));
             },
-            actions: {
-              delete: (e: GestureResponderEvent) => {
-                e.stopPropagation();
-                deleteNode(node.id as string)
-                  .then((rsp) => JSON.parse(rsp as string))
-                  .then((data) => setNodes(data?.node));
-              },
-            },
-          }}
-        />
-      ))}
-      {/* </View> */}
-      <BaseList nodes={Object.values(nodes).map(node => ({...node, onPress: () => {}, actions: {delete: () => {}}}))} width="100%" />
+          },
+        }))}
+        width="100%"
+      />
       <Button theme="blue" onPress={() => setSheetOpen(true)}>
         Hello world
       </Button>
