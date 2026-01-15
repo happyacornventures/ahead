@@ -182,11 +182,15 @@ const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
 
 const BaseList = ({
   nodes,
+  ItemComponent = BaseListItem,
   ...styles
-}: { nodes: Record<string, unknown>[] } & Record<string, unknown>) => (
+}: {
+  nodes: Record<string, unknown>[];
+  ItemComponent?: React.ComponentType<{ node: Record<string, unknown> }>;
+} & Record<string, unknown>) => (
   <View {...styles}>
     {nodes.map((node) => (
-      <BaseListItem key={node.id as string} node={node} />
+      <ItemComponent key={node.id as string} node={node} />
     ))}
   </View>
 );
