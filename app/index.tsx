@@ -133,11 +133,11 @@ const SidebarSheet = ({
         onPress={() => onOpenChange(false)}
       />
       {children}
-      {node &&
+      {/* {node &&
         Object.entries(node).map(([key, value]) => (
           <ListItem key={key}>{`${key}: ${value}`}</ListItem>
-        ))}
-      <BaseForm
+        ))} */}
+      {/* <BaseForm
         schema={{
           title: node ? "Edit Node" : "Create Node",
           properties: {
@@ -152,7 +152,7 @@ const SidebarSheet = ({
           onSubmit(values.slug as string);
           onOpenChange(false);
         }}
-      />
+      /> */}
     </Sheet.Frame>
   </Sheet>
 );
@@ -231,7 +231,37 @@ export default function Index() {
                   .then((data) => setNodes(data?.node))
         }
         node={activeNode ? nodes[activeNode] : null}
-      />
+      >
+        {activeNode &&
+          Object.entries(nodes[activeNode]).map(([key, value]) => (
+            <ListItem key={key}>{`${key}: ${value}`}</ListItem>
+          ))}
+        <BaseForm
+          schema={{
+            title: activeNode ? "Edit Node" : "Create Node",
+            properties: {
+              slug: {
+                type: "string",
+                title: "Slug",
+                value: (nodes[activeNode ?? ""]?.slug as string) ?? "",
+              },
+            },
+          }}
+          onSubmit={
+            activeNode
+              ? ({ slug }) =>
+                  updateNode({ id: activeNode, slug })
+                    .then((rsp) => JSON.parse(rsp as string))
+                    .then((data) => setNodes(data?.node))
+                    .then(() => setSheetOpen(false))
+              : ({ slug }) =>
+                  createNode(slug as string)
+                    .then((rsp) => JSON.parse(rsp as string))
+                    .then((data) => setNodes(data?.node))
+                    .then(() => setSheetOpen(false))
+          }
+        />
+      </SidebarSheet>
       {nodes && (
         <BaseList
           nodes={Object.values(nodes).map((node) => ({
