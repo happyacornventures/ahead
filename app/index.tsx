@@ -250,8 +250,15 @@ export default function Index() {
         }))}
         width="100%"
       />
-      <Button theme="blue" onPress={() => setSheetOpen(true)}>
-        Hello world
+      <Button
+        theme="blue"
+        onPress={() => setSheetOpen(true)}
+        position="absolute"
+        top="$3"
+        right="$3"
+        size="$2"
+      >
+        New Node
       </Button>
     </View>
   );
