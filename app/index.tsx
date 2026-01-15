@@ -232,24 +232,26 @@ export default function Index() {
         }
         node={activeNode ? nodes[activeNode] : null}
       />
-      <BaseList
-        nodes={Object.values(nodes).map((node) => ({
-          ...node,
-          onPress: () => {
-            setActiveNode(node.id as string);
-            setSheetOpen(true);
-          },
-          actions: {
-            delete: (e: GestureResponderEvent) => {
-              e.stopPropagation();
-              deleteNode(node.id as string)
-                .then((rsp) => JSON.parse(rsp as string))
-                .then((data) => setNodes(data?.node));
+      {nodes && (
+        <BaseList
+          nodes={Object.values(nodes).map((node) => ({
+            ...node,
+            onPress: () => {
+              setActiveNode(node.id as string);
+              setSheetOpen(true);
             },
-          },
-        }))}
-        width="100%"
-      />
+            actions: {
+              delete: (e: GestureResponderEvent) => {
+                e.stopPropagation();
+                deleteNode(node.id as string)
+                  .then((rsp) => JSON.parse(rsp as string))
+                  .then((data) => setNodes(data?.node));
+              },
+            },
+          }))}
+          width="100%"
+        />
+      )}
       <Button
         theme="blue"
         onPress={() => setSheetOpen(true)}
