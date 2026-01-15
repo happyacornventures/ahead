@@ -103,11 +103,13 @@ const SidebarSheet = ({
   onOpenChange,
   onSubmit,
   node,
+  children,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (slug: string) => void;
   node: Record<string, unknown> | null;
+  children: React.ReactNode;
 }) => (
   <Sheet
     modal
@@ -130,6 +132,7 @@ const SidebarSheet = ({
         icon={X}
         onPress={() => onOpenChange(false)}
       />
+      {children}
       {node &&
         Object.entries(node).map(([key, value]) => (
           <ListItem key={key}>{`${key}: ${value}`}</ListItem>
