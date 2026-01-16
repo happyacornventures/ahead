@@ -112,8 +112,6 @@ const SidebarSheet = ({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (slug: string) => void;
-  node: Record<string, unknown> | null;
   children: React.ReactNode;
 }) => (
   <Sheet
@@ -228,18 +226,6 @@ export default function Index() {
           setSheetOpen(arg);
           setActiveNode(null);
         }}
-        onSubmit={
-          activeNode
-            ? (slug) =>
-                updateNode({ id: activeNode, slug })
-                  .then((rsp) => JSON.parse(rsp as string))
-                  .then((data) => setNodes(data?.node))
-            : (slug) =>
-                createNode(slug)
-                  .then((rsp) => JSON.parse(rsp as string))
-                  .then((data) => setNodes(data?.node))
-        }
-        node={activeNode ? nodes[activeNode] : null}
       >
         {activeNode &&
           Object.entries(nodes[activeNode]).map(([key, value]) => (
