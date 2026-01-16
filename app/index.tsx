@@ -106,8 +106,6 @@ const BaseForm = ({
 const SidebarSheet = ({
   open,
   onOpenChange,
-  onSubmit,
-  node,
   children,
 }: {
   open: boolean;
@@ -136,26 +134,6 @@ const SidebarSheet = ({
         onPress={() => onOpenChange(false)}
       />
       {children}
-      {/* {node &&
-        Object.entries(node).map(([key, value]) => (
-          <ListItem key={key}>{`${key}: ${value}`}</ListItem>
-        ))} */}
-      {/* <BaseForm
-        schema={{
-          title: node ? "Edit Node" : "Create Node",
-          properties: {
-            slug: {
-              type: "string",
-              title: "Slug",
-              value: (node?.slug as string) ?? "",
-            },
-          },
-        }}
-        onSubmit={(values) => {
-          onSubmit(values.slug as string);
-          onOpenChange(false);
-        }}
-      /> */}
     </Sheet.Frame>
   </Sheet>
 );
