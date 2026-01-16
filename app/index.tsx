@@ -78,7 +78,12 @@ const BaseForm = ({
   return (
     <>
       {schema.title && <H2>{schema.title}</H2>}
-      <Form onSubmit={() => onSubmit(formData)}>
+      <Form
+        onSubmit={() => {
+          onSubmit(formData);
+          setFormData({});
+        }}
+      >
         {schema.properties &&
           Object.entries(schema.properties).map(([key, property]) => (
             <BaseFormField
