@@ -22,24 +22,6 @@ const dispatch = (event: string, payload: Record<string, unknown>) =>
     payload: JSON.stringify(payload),
   });
 
-const createNode = (slug: string) =>
-  invoke("dispatch", {
-    event: "node_created",
-    payload: JSON.stringify({ slug }),
-  });
-
-const updateNode = (node: Record<string, unknown>) =>
-  invoke("dispatch", {
-    event: "node_updated",
-    payload: JSON.stringify(node),
-  });
-
-const deleteNode = (id: string) =>
-  invoke("dispatch", {
-    event: "node_deleted",
-    payload: JSON.stringify({ id }),
-  });
-
 const BaseFormField = ({
   fieldKey,
   title,
@@ -190,7 +172,7 @@ export default function Index() {
   const [activeNode, setActiveNode] = useState<string | null>(null);
 
   useEffect(() => {
-    invoke("dispatch", { event: "app_started" })
+    dispatch("app_started", {})
       .then((rsp) => JSON.parse(rsp as string))
       .then((data) => setNodes(data?.node))
       .catch(console.error);
@@ -229,12 +211,12 @@ export default function Index() {
           onSubmit={
             activeNode
               ? ({ slug }) =>
-                  updateNode({ id: activeNode, slug })
+                  dispatch("node_updated", { id: activeNode, slug })
                     .then((rsp) => JSON.parse(rsp as string))
                     .then((data) => setNodes(data?.node))
                     .then(() => setSheetOpen(false))
               : ({ slug }) =>
-                  createNode(slug as string)
+                  dispatch("node_created", { slug })
                     .then((rsp) => JSON.parse(rsp as string))
                     .then((data) => setNodes(data?.node))
                     .then(() => setSheetOpen(false))
@@ -252,7 +234,7 @@ export default function Index() {
             actions: {
               delete: (e: GestureResponderEvent) => {
                 e.stopPropagation();
-                deleteNode(node.id as string)
+                dispatch("node_deleted", { id: node.id as string })
                   .then((rsp) => JSON.parse(rsp as string))
                   .then((data) => setNodes(data?.node));
               },
