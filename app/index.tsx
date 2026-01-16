@@ -16,6 +16,12 @@ import {
   YStack,
 } from "tamagui";
 
+const dispatch = (event: string, payload: Record<string, unknown>) =>
+  invoke("dispatch", {
+    event,
+    payload: JSON.stringify(payload),
+  });
+
 const createNode = (slug: string) =>
   invoke("dispatch", {
     event: "node_created",
