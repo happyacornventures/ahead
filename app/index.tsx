@@ -196,7 +196,7 @@ export default function Index() {
         }}
       >
         {activeNode &&
-          Object.entries(nodes[activeNode]).map(([key, value]) => (
+          Object.entries(nodes ? nodes[activeNode] : {}).map(([key, value]) => (
             <ListItem key={key}>{`${key}: ${value}`}</ListItem>
           ))}
         <BaseForm
@@ -223,7 +223,7 @@ export default function Index() {
           }
         />
       </SidebarSheet>
-      {nodes && (
+      {(nodes ?? {}) && (
         <BaseList
           nodes={Object.values(nodes).map((node) => ({
             ...node,
