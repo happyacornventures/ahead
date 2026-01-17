@@ -173,7 +173,6 @@ export default function Index() {
 
   useEffect(() => {
     dispatch("app_started", {})
-      .then((rsp) => JSON.parse(rsp as string))
       .then((data) => setNodes(data?.node))
       .catch(console.error);
   }, []);
@@ -212,12 +211,10 @@ export default function Index() {
             activeNode
               ? ({ slug }) =>
                   dispatch("node_updated", { id: activeNode, slug })
-                    .then((rsp) => JSON.parse(rsp as string))
                     .then((data) => setNodes(data?.node))
                     .then(() => setSheetOpen(false))
               : ({ slug }) =>
                   dispatch("node_created", { slug })
-                    .then((rsp) => JSON.parse(rsp as string))
                     .then((data) => setNodes(data?.node))
                     .then(() => setSheetOpen(false))
           }
@@ -234,9 +231,9 @@ export default function Index() {
             actions: {
               delete: (e: GestureResponderEvent) => {
                 e.stopPropagation();
-                dispatch("node_deleted", { id: node.id as string })
-                  .then((rsp) => JSON.parse(rsp as string))
-                  .then((data) => setNodes(data?.node));
+                dispatch("node_deleted", { id: node.id as string }).then(
+                  (data) => setNodes(data?.node),
+                );
               },
             },
           }))}
