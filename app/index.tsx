@@ -16,11 +16,14 @@ import {
   YStack,
 } from "tamagui";
 
+// eventually this should be split based on platform as well--this is only true for web
 const dispatch = (event: string, payload: Record<string, unknown>) =>
-  invoke("dispatch", {
-    event,
-    payload: JSON.stringify(payload),
-  });
+  window.__TAURI_INTERNALS__
+    ? invoke("dispatch", {
+        event,
+        payload: JSON.stringify(payload),
+      }).then((rsp) => JSON.parse(rsp as string))
+    : Promise.resolve({ node: {} });
 
 const BaseFormField = ({
   fieldKey,
