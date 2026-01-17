@@ -203,10 +203,7 @@ export default function Index() {
           setActiveNode(null);
         }}
       >
-        {activeNode &&
-          Object.entries(nodes ? nodes[activeNode] : {}).map(([key, value]) => (
-            <ListItem key={key}>{`${key}: ${value}`}</ListItem>
-          ))}
+        {activeNode && <BaseDetails node={nodes[activeNode ?? ""]} />}
         <BaseForm
           schema={{
             title: activeNode ? "Edit Node" : "Create Node",
