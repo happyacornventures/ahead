@@ -167,6 +167,14 @@ const BaseList = ({
   </View>
 );
 
+const BaseDetails = ({ node }: { node: Record<string, unknown> }) => (
+  <>
+    {Object.entries(node ?? {}).map(([key, value]) => (
+      <ListItem key={key}>{`${key}: ${value}`}</ListItem>
+    ))}
+  </>
+);
+
 export default function Index() {
   const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>(
     {},
