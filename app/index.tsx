@@ -1,12 +1,15 @@
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import { GestureResponderEvent } from "react-native";
-import {
-  Button,
-  View
-} from "tamagui";
 
-import { BaseDetails, BaseForm, BaseList, BottomDrawer } from "./components/BaseComponents";
+import {
+  BaseDetails,
+  BaseForm,
+  BaseList,
+  BottomDrawer,
+  Button,
+  View,
+} from "./components";
 
 // eventually this should be split based on platform as well--this is only true for web
 const dispatch = (event: string, payload: Record<string, unknown>) =>
