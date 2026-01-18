@@ -129,7 +129,7 @@ const BottomDrawer = ({
   </Sheet>
 );
 
-const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
+const BaseListItem = ({ node, targetKey }: { node: Record<string, unknown>; targetKey?: string }) => (
   <ListItem
     hoverTheme
     pressTheme
@@ -137,7 +137,7 @@ const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
     onPress={(node.onPress as () => void) ?? (() => {})}
   >
     <XStack flex={1} justifyContent="space-between" alignItems="center">
-      <Text>{(node as Record<string, unknown>)?.slug}</Text>
+      {targetKey && (<Text>{(node as Record<string, unknown>)?.[targetKey]}</Text>)}
       {node.actions &&
         Object.entries(node.actions).map(([key, action]) => (
           <Button
@@ -154,15 +154,17 @@ const BaseListItem = ({ node }: { node: Record<string, unknown> }) => (
 
 const BaseList = ({
   nodes,
+  targetKey,
   ItemComponent = BaseListItem,
   ...styles
 }: {
   nodes: Record<string, unknown>[];
-  ItemComponent?: React.ComponentType<{ node: Record<string, unknown> }>;
+  targetKey?: string;
+  ItemComponent?: React.ComponentType<{ node: Record<string, unknown>; targetKey?: string }>;
 } & Record<string, unknown>) => (
   <View {...styles}>
     {nodes.map((node) => (
-      <ItemComponent key={node.id as string} node={node} />
+      <ItemComponent key={node.id as string} node={node} targetKey={targetKey} />
     ))}
   </View>
 );
@@ -245,6 +247,7 @@ export default function Index() {
               },
             },
           }))}
+          targetKey="slug"
           width="100%"
         />
       )}
