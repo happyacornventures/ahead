@@ -94,7 +94,7 @@ const BaseForm = ({
   );
 };
 
-const SidebarSheet = ({
+const BottomDrawer = ({
   open,
   onOpenChange,
   children,
@@ -196,7 +196,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <SidebarSheet
+      <BottomDrawer
         open={isSheetOpen}
         onOpenChange={(arg) => {
           setSheetOpen(arg);
@@ -227,7 +227,7 @@ export default function Index() {
                     .then(() => setSheetOpen(false))
           }
         />
-      </SidebarSheet>
+      </BottomDrawer>
       {(nodes ?? {}) && (
         <BaseList
           nodes={Object.values(nodes).map((node) => ({
