@@ -26,25 +26,22 @@ fn hydrate_event(event: String, payload: &str) -> Value {
     })
 }
 
-fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
+fn node_reducer(state: Value, event: Value) -> Value {
     let mut new_state = state.clone();
 
-    match event {
+    match event["type"].as_str().unwrap() {
         "node_created" => {
-            let event_body = hydrate_event(event.to_string(), payload);
             new_state
                 .as_object_mut()
                 .unwrap()
-                .insert(event_body["id"].as_str().unwrap().to_string(), event_body["payload"].clone());
+                .insert(event["id"].as_str().unwrap().to_string(), event["payload"].clone());
             return new_state;
         }
         "node_updated" => {
-            let event_body = hydrate_event(event.to_string(), payload);
-            let payload_value: Value = serde_json::from_str(payload).unwrap();
-            let node_id = payload_value["id"].as_str().unwrap().to_string();
+            let node_id = event["payload"]["id"].as_str().unwrap().to_string();
             let mut existing_node = new_state[node_id.clone()].as_object_mut().unwrap().clone();
 
-            if let Value::Object(payload_map) = payload_value {
+            if let Value::Object(payload_map) = event["payload"].clone() {
                 existing_node.extend(payload_map);
             }
 
@@ -55,15 +52,12 @@ fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
             return new_state;
         }
         "node_deleted" => {
-            let event_body = hydrate_event(event.to_string(), payload);
-            let payload_value: Value = serde_json::from_str(payload).unwrap();
-            let node_id = payload_value["id"].as_str().unwrap().to_string();
-
+            let node_id = event["payload"]["id"].as_str().unwrap().to_string();
             new_state.as_object_mut().unwrap().remove(&node_id.clone());
             return new_state;
         }
         _ => {
-            println!("Unknown command: {}", event);
+            println!("Unknown command: {}", event["type"].as_str().unwrap());
         }
     }
     state
@@ -94,10 +88,10 @@ pub fn run() {
 
             let data: HashMap<String, Value> = HashMap::from([("node".to_string(), json!({}))]);
             let mut listeners: Vec<Box<dyn Fn(&str, &Value, &str, &Value) + Send + Sync>> = Vec::new();
-            let reducers: HashMap<String, (Value, fn(Value, &str, &str) -> Value)> =
+            let reducers: HashMap<String, (Value, fn(Value, Value) -> Value)> =
                 HashMap::from([(
                     "node".to_string(),
-                    (json!({}), node_reducer as fn(Value, &str, &str) -> Value),
+                    (json!({}), node_reducer as fn(Value, Value) -> Value),
                 )]);
 
             let machine = Machine::new(data, reducers, Mutex::new(std::mem::take(&mut listeners)));
