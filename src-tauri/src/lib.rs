@@ -9,23 +9,6 @@ use uuid::Uuid;
 mod hermenia;
 use hermenia::Machine;
 
-fn hydrate_event(event: String, payload: &str) -> Value {
-    let id = Uuid::new_v4().to_string();
-    let payload_value: Value = serde_json::from_str(payload).unwrap();
-
-    let timestamp = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .expect("Time went backwards")
-        .as_millis() as u64;
-
-    json!({
-        "id": id,
-        "createTime": timestamp,
-        "type": event,
-        "payload": payload_value
-    })
-}
-
 fn node_reducer(state: Value, event: Value) -> Value {
     let mut new_state = state.clone();
 
