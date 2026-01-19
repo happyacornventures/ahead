@@ -4,7 +4,6 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use serde_json::{json, Value};
 use tauri::Manager;
-use uuid::Uuid;
 
 mod hermenia;
 use hermenia::Machine;
@@ -14,10 +13,10 @@ fn node_reducer(state: Value, event: Value) -> Value {
 
     match event["type"].as_str().unwrap() {
         "node_created" => {
-            new_state
-                .as_object_mut()
-                .unwrap()
-                .insert(event["id"].as_str().unwrap().to_string(), event["payload"].clone());
+            new_state.as_object_mut().unwrap().insert(
+                event["id"].as_str().unwrap().to_string(),
+                event["payload"].clone(),
+            );
             return new_state;
         }
         "node_updated" => {
@@ -70,12 +69,11 @@ pub fn run() {
             }
 
             let data: HashMap<String, Value> = HashMap::from([("node".to_string(), json!({}))]);
-            let mut listeners: Vec<Box<dyn Fn(&str, &Value, &str, &Value) + Send + Sync>> = Vec::new();
-            let reducers: HashMap<String, (Value, fn(Value, Value) -> Value)> =
-                HashMap::from([(
-                    "node".to_string(),
-                    (json!({}), node_reducer as fn(Value, Value) -> Value),
-                )]);
+            let mut listeners: Vec<Box<dyn Fn(&str, &Value, &Value) + Send + Sync>> = Vec::new();
+            let reducers: HashMap<String, (Value, fn(Value, Value) -> Value)> = HashMap::from([(
+                "node".to_string(),
+                (json!({}), node_reducer as fn(Value, Value) -> Value),
+            )]);
 
             let machine = Machine::new(data, reducers, Mutex::new(std::mem::take(&mut listeners)));
 

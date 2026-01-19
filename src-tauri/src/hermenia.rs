@@ -7,7 +7,7 @@ use uuid::Uuid;
 pub struct Machine {
     pub data: Mutex<HashMap<String, Value>>,
     pub reducers: HashMap<String, (Value, fn(Value, Value) -> Value)>,
-    pub listeners: Mutex<Vec<Box<dyn Fn(&str, &Value, &str, &Value) + Send + Sync>>>,
+    pub listeners: Mutex<Vec<Box<dyn Fn(&str, &Value, &Value) + Send + Sync>>>,
 }
 
 fn hydrate_event(event: String, payload: &str) -> Value {
@@ -31,7 +31,7 @@ impl Machine {
     pub fn new(
         data: HashMap<String, Value>,
         reducers: HashMap<String, (Value, fn(Value, Value) -> Value)>,
-        listeners: Mutex<Vec<Box<dyn Fn(&str, &Value, &str, &Value) + Send + Sync>>>,
+        listeners: Mutex<Vec<Box<dyn Fn(&str, &Value, &Value) + Send + Sync>>>,
     ) -> Self {
         Self {
             data: data.into(),
@@ -54,7 +54,7 @@ impl Machine {
                 if *value != updated_value {
                     *value = updated_value.clone();
                     for listener in self.listeners.lock().unwrap().iter() {
-                        listener(key, &updated_value, &event, &payload_value);
+                        listener(key, &updated_value, &hydrated_event);
                     }
                 }
             }
