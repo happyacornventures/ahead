@@ -75,17 +75,17 @@ export default function Index() {
       </BottomDrawer>
       {(nodes ?? {}) && (
         <BaseList
-          nodes={Object.values(nodes).map((node) => ({
+          nodes={Object.entries(nodes).map(([id, node]) => ({
             ...node,
             onPress: () => {
-              setActiveNode(node.id as string);
+              setActiveNode(id);
               setSheetOpen(true);
             },
             actions: {
               delete: (e: GestureResponderEvent) => {
                 e.stopPropagation();
-                dispatch("node_deleted", { id: node.id as string }).then(
-                  (data) => setNodes(data?.node),
+                dispatch("node_deleted", { id }).then((data) =>
+                  setNodes(data?.node),
                 );
               },
             },

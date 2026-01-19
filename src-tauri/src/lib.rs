@@ -11,27 +11,19 @@ use hermenia::Machine;
 
 fn hydrate_event(event: String, payload: &str) -> Value {
     let id = Uuid::new_v4().to_string();
-    let mut event_body: Value = serde_json::from_str(payload).unwrap();
+    let payload_value: Value = serde_json::from_str(payload).unwrap();
 
     let timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("Time went backwards")
         .as_millis() as u64;
 
-    event_body
-        .as_object_mut()
-        .unwrap()
-        .insert("id".to_string(), json!(id));
-    event_body
-        .as_object_mut()
-        .unwrap()
-        .insert("createTime".to_string(), json!(timestamp));
-    event_body
-        .as_object_mut()
-        .unwrap()
-        .insert("type".to_string(), serde_json::Value::String(event));
-
-    event_body
+    json!({
+        "id": id,
+        "createTime": timestamp,
+        "type": event,
+        "payload": payload_value
+    })
 }
 
 fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
@@ -43,7 +35,7 @@ fn node_reducer(state: Value, event: &str, payload: &str) -> Value {
             new_state
                 .as_object_mut()
                 .unwrap()
-                .insert(event_body["id"].as_str().unwrap().to_string(), event_body);
+                .insert(event_body["id"].as_str().unwrap().to_string(), event_body["payload"].clone());
             return new_state;
         }
         "node_updated" => {
