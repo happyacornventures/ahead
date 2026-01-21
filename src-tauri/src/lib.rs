@@ -45,6 +45,17 @@ fn node_reducer(state: Value, event: Value) -> Value {
     state
 }
 
+fn edge_reducer(state: Value, event: Value) -> Value {
+    let mut new_state = state.clone();
+
+    match event["type"].as_str().unwrap() {
+        _ => {
+            println!("Unknown command: {}", event["type"].as_str().unwrap());
+        }
+    }
+    state
+}
+
 #[tauri::command]
 fn dispatch(
     _app: tauri::AppHandle,
