@@ -43,9 +43,6 @@ impl Machine {
     pub fn consume(&self, event: String, payload: Option<String>) -> String {
         let mut data = self.data.lock().unwrap();
         let payload_str = payload.as_deref().unwrap_or("{}");
-        let payload_value: Value =
-            serde_json::from_str(payload_str).unwrap_or(serde_json::Value::Null);
-
         let hydrated_event = hydrate_event(event.to_string(), payload_str);
 
         for (key, value) in data.iter_mut() {
@@ -61,5 +58,9 @@ impl Machine {
         }
 
         serde_json::to_string(&*data).unwrap()
+    }
+
+    pub fn subscribe(&self, callback: Box<dyn Fn(&str, &Value, &Value) + Send + Sync>) {
+        self.listeners.lock().unwrap().push(callback);
     }
 }
