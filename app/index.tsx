@@ -24,12 +24,18 @@ export default function Index() {
   const [nodes, setNodes] = useState<Record<string, Record<string, unknown>>>(
     {},
   );
+  const [edges, setEdges] = useState<Record<string, Record<string, unknown>>>(
+    {},
+  );
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [activeNode, setActiveNode] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch("app_started", {})
-      .then((data) => setNodes(data?.node))
+      .then((data) => {
+        setNodes(data?.nodes);
+        setEdges(data?.edges);
+      })
       .catch(console.error);
   }, []);
 
