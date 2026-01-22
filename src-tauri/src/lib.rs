@@ -56,6 +56,13 @@ fn edge_reducer(state: Value, event: Value) -> Value {
             );
             return new_state;
         }
+        "node_deleted" => {
+            let node_id = event["payload"]["id"].as_str().unwrap().to_string();
+            new_state.as_object_mut().unwrap().retain(|_, edge| {
+                edge["from"].as_str().unwrap() != node_id && edge["to"].as_str().unwrap() != node_id
+            });
+            return new_state;
+        }
         _ => {
             println!("Unknown command: {}", event["type"].as_str().unwrap());
         }
