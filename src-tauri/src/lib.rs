@@ -49,6 +49,13 @@ fn edge_reducer(state: Value, event: Value) -> Value {
     let mut new_state = state.clone();
 
     match event["type"].as_str().unwrap() {
+        "edge_created" => {
+            new_state.as_object_mut().unwrap().insert(
+                event["id"].as_str().unwrap().to_string(),
+                event["payload"].clone(),
+            );
+            return new_state;
+        }
         _ => {
             println!("Unknown command: {}", event["type"].as_str().unwrap());
         }
@@ -81,10 +88,16 @@ pub fn run() {
 
             let data: HashMap<String, Value> = HashMap::from([("node".to_string(), json!({}))]);
             let mut listeners: Vec<Box<dyn Fn(&str, &Value, &Value) + Send + Sync>> = Vec::new();
-            let reducers: HashMap<String, (Value, fn(Value, Value) -> Value)> = HashMap::from([(
-                "node".to_string(),
-                (json!({}), node_reducer as fn(Value, Value) -> Value),
-            )]);
+            let reducers: HashMap<String, (Value, fn(Value, Value) -> Value)> = HashMap::from([
+                (
+                    "node".to_string(),
+                    (json!({}), node_reducer as fn(Value, Value) -> Value),
+                ),
+                (
+                    "edge".to_string(),
+                    (json!({}), edge_reducer as fn(Value, Value) -> Value),
+                ),
+            ]);
 
             let machine = Machine::new(data, reducers, Mutex::new(std::mem::take(&mut listeners)));
 
