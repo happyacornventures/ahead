@@ -64,6 +64,15 @@ export default function Index() {
                 title: "Slug",
                 value: (nodes[activeNode ?? ""]?.slug as string) ?? "",
               },
+              child: {
+                type: "search",
+                title: "Child Node",
+                options: Object.entries(nodes).map(([id, node]) => ({
+                  label: node.slug as string,
+                  value: id,
+                })),
+                value: "",
+              },
             },
           }}
           onSubmit={
