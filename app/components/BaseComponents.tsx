@@ -14,6 +14,65 @@ import {
   YStack,
 } from "tamagui";
 
+const SearchableSelect = ({
+  fieldKey,
+  title,
+  options,
+  value,
+  handleChange,
+}: {
+  fieldKey: string;
+  title: string;
+  options: { label: string; value: unknown }[];
+  value: unknown;
+  handleChange: (key: string, value: unknown) => void;
+}) => {
+  const [query, setQuery] = useState(
+    () => options.find((o) => o.value === value)?.label ?? "",
+  );
+  const [isFocused, setIsFocused] = useState(false);
+
+  const filteredOptions =
+    query && isFocused
+      ? options.filter((option) =>
+          option.label.toLowerCase().includes(query.toLowerCase()),
+        )
+      : [];
+
+  return (
+    <YStack gap="$2" marginVertical="$2">
+      <Label htmlFor={fieldKey}>{title}</Label>
+      <Input
+        id={fieldKey}
+        value={query}
+        onChange={(e) => setQuery((e.currentTarget as HTMLInputElement).value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setTimeout(() => setIsFocused(false), 150)} // Delay to allow click
+        placeholder="Type to search..."
+      />
+      {filteredOptions.length > 0 && (
+        <YStack borderTopWidth={1} borderColor="$borderColor">
+          {filteredOptions.map((option) => (
+            <ListItem
+              hoverTheme
+              pressTheme
+              key={option.label}
+              onPress={() => {
+                handleChange(fieldKey, option.value);
+                setQuery(option.label);
+                setIsFocused(false);
+              }}
+            >
+              {option.label}
+            </ListItem>
+          ))}
+        </YStack>
+      )}
+    </YStack>
+  );
+};
+
+
 const BaseFormField = ({
   fieldKey,
   title,
