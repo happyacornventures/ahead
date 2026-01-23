@@ -72,7 +72,6 @@ const SearchableSelect = ({
   );
 };
 
-
 const BaseFormField = ({
   fieldKey,
   title,
@@ -124,16 +123,27 @@ export const BaseForm = ({
         }}
       >
         {schema.properties &&
-          Object.entries(schema.properties).map(([key, property]) => (
-            <BaseFormField
-              key={key}
-              fieldKey={key}
-              title={property.title || key}
-              type={property.type || "text"}
-              value={formData[key] || property.value || ""}
-              handleChange={handleChange}
-            />
-          ))}
+          Object.entries(schema.properties).map(([key, property]) =>
+            property.type === "search" ? (
+              <SearchableSelect
+                key={key}
+                fieldKey={key}
+                title={property.title || key}
+                options={property.options || []}
+                value={formData[key] || property.value || ""}
+                handleChange={handleChange}
+              />
+            ) : (
+              <BaseFormField
+                key={key}
+                fieldKey={key}
+                title={property.title || key}
+                type={property.type || "text"}
+                value={formData[key] || property.value || ""}
+                handleChange={handleChange}
+              />
+            ),
+          )}
         <Form.Trigger asChild>
           <Button marginTop="$4">{schema.submitText || "Submit"}</Button>
         </Form.Trigger>
