@@ -33,7 +33,7 @@ export default function Index() {
   useEffect(() => {
     dispatch("app_started", {})
       .then((data) => {
-        setNodes(data?.nodes);
+        setNodes(data?.node);
         setEdges(data?.edges);
       })
       .catch(console.error);
