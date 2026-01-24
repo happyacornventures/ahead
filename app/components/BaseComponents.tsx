@@ -131,7 +131,15 @@ export const BaseForm = ({
                 title={property.title || key}
                 options={property.options || []}
                 value={formData[key] || property.value || ""}
-                handleChange={handleChange}
+                handleChange={
+                  property.values === "multiple"
+                    ? (key, value) =>
+                        handleChange(key, [
+                          ...((formData[key] as unknown[]) || []),
+                          value,
+                        ])
+                    : handleChange
+                }
               />
             ) : (
               <BaseFormField
