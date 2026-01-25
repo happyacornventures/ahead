@@ -64,9 +64,9 @@ export default function Index() {
                 title: "Slug",
                 value: (nodes[activeNode ?? ""]?.slug as string) ?? "",
               },
-              child: {
+              targets: {
                 type: "search",
-                title: "Child Node",
+                title: "Targets",
                 options: Object.entries(nodes).map(([id, node]) => ({
                   label: node.slug as string,
                   value: id,
