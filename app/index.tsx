@@ -34,7 +34,7 @@ export default function Index() {
     dispatch("app_started", {})
       .then((data) => {
         setNodes(data?.node);
-        setEdges(data?.edges);
+        setEdges(data?.edge);
       })
       .catch(console.error);
   }, []);
