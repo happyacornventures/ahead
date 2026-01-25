@@ -72,17 +72,25 @@ export default function Index() {
                   value: id,
                 })),
                 value: "",
-                values: "multiple"
+                values: "multiple",
               },
             },
           }}
           onSubmit={
             activeNode
-              ? ({ slug }) =>
-                  dispatch("node_updated", { id: activeNode, slug })
-                    .then((data) => setNodes(data?.node))
-                    .then(() => setSheetOpen(false))
-              : ({ slug }) =>
+              ? ({ slug, targets }) =>
+                  Promise.all([
+                    dispatch("node_updated", { id: activeNode, slug })
+                      .then((data) => setNodes(data?.node))
+                      .then(() => setSheetOpen(false)),
+                    ...(targets as unknown[]).map((target) =>
+                      dispatch("edge_created", {
+                        source: activeNode,
+                        target,
+                      }).then((data) => setEdges(data?.edge)),
+                    ),
+                  ])
+              : ({ slug, targets }) =>
                   dispatch("node_created", { slug })
                     .then((data) => setNodes(data?.node))
                     .then(() => setSheetOpen(false))
