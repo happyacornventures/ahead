@@ -9,7 +9,7 @@ import {
   BottomDrawer,
   Button,
   View,
-} from "./components";
+} from "./component";
 
 // eventually this should be split based on platform as well--this is only true for web
 const dispatch = (event: string, payload: Record<string, unknown>) =>
