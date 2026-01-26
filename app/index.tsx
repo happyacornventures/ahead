@@ -73,6 +73,7 @@ export default function Index() {
                 })),
                 value: "",
                 values: "multiple",
+                visible: activeNode !== null
               },
             },
           }}
