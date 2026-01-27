@@ -58,11 +58,15 @@ export default function Index() {
           <BaseDetails
             node={{
               ...(nodes[activeNode ?? ""] ?? {}),
-              ...{
-                next: Object.values(edges)
-                  .filter((edge) => edge.source === activeNode)
-                  .map((edge) => nodes[(edge.target as string) ?? ""].slug),
-              },
+              ...(Object.values(edges).filter(
+                (edge) => edge.source === activeNode,
+              ).length > 0
+                ? {
+                    next: Object.values(edges)
+                      .filter((edge) => edge.source === activeNode)
+                      .map((edge) => nodes[(edge.target as string) ?? ""].slug),
+                  }
+                : {}),
             }}
           />
         )}
