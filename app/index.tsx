@@ -54,7 +54,9 @@ export default function Index() {
           setActiveNode(null);
         }}
       >
-        {activeNode && <BaseDetails node={nodes[activeNode ?? ""]} />}
+        {activeNode && (
+          <BaseDetails node={{ ...(nodes[activeNode ?? ""] ?? {}) }} />
+        )}
         <BaseForm
           schema={{
             title: activeNode ? "Edit Node" : "Create Node",
