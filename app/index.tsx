@@ -55,7 +55,16 @@ export default function Index() {
         }}
       >
         {activeNode && (
-          <BaseDetails node={{ ...(nodes[activeNode ?? ""] ?? {}) }} />
+          <BaseDetails
+            node={{
+              ...(nodes[activeNode ?? ""] ?? {}),
+              ...{
+                next: Object.values(edges)
+                  .filter((edge) => edge.source === activeNode)
+                  .map((edge) => nodes[(edge.target as string) ?? ""].slug),
+              },
+            }}
+          />
         )}
         <BaseForm
           schema={{
