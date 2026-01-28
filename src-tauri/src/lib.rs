@@ -59,7 +59,8 @@ fn edge_reducer(state: Value, event: Value) -> Value {
         "node_deleted" => {
             let node_id = event["payload"]["id"].as_str().unwrap().to_string();
             new_state.as_object_mut().unwrap().retain(|_, edge| {
-                edge["source"].as_str().unwrap() != node_id && edge["target"].as_str().unwrap() != node_id
+                edge["source"].as_str().unwrap() != node_id
+                    && edge["target"].as_str().unwrap() != node_id
             });
             return new_state;
         }
@@ -93,7 +94,10 @@ pub fn run() {
                 )?;
             }
 
-            let data: HashMap<String, Value> = HashMap::from([("node".to_string(), json!({})), ("edge".to_string(), json!({}))]);
+            let data: HashMap<String, Value> = HashMap::from([
+                ("node".to_string(), json!({})),
+                ("edge".to_string(), json!({})),
+            ]);
             let mut listeners: Vec<Box<dyn Fn(&str, &Value, &Value) + Send + Sync>> = Vec::new();
             let reducers: HashMap<String, (Value, fn(Value, Value) -> Value)> = HashMap::from([
                 (
