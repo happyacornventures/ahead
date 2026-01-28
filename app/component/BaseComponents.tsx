@@ -18,12 +18,14 @@ const SearchableSelect = ({
   fieldKey,
   title,
   options,
+  selection,
   value,
   handleChange,
 }: {
   fieldKey: string;
   title: string;
   options: { label: string; value: unknown }[];
+  selection: unknown[];
   value: unknown;
   handleChange: (key: string, value: unknown) => void;
 }) => {
@@ -132,6 +134,7 @@ export const BaseForm = ({
                   fieldKey={key}
                   title={property.title || key}
                   options={property.options || []}
+                  selection={(formData[key] || []) as unknown[]}
                   value={formData[key] || property.value || ""}
                   handleChange={
                     property.values === "multiple"
