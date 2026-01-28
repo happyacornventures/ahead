@@ -50,6 +50,13 @@ fn edge_reducer(state: Value, event: Value) -> Value {
 
     match event["type"].as_str().unwrap() {
         "edge_created" => {
+            for (_id, edge) in state.as_object().unwrap().iter() {
+                if edge["source"] == event["payload"]["source"]
+                    && edge["target"] == event["payload"]["target"]
+                {
+                    return state;
+                }
+            }
             new_state.as_object_mut().unwrap().insert(
                 event["id"].as_str().unwrap().to_string(),
                 event["payload"].clone(),
