@@ -61,6 +61,7 @@ fn edge_reducer(state: Value, event: Value) -> Value {
                 event["id"].as_str().unwrap().to_string(),
                 event["payload"].clone(),
             );
+            println!("Edge created: {:?}", new_state);
             return new_state;
         }
         "node_deleted" => {

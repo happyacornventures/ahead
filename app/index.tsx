@@ -39,6 +39,8 @@ export default function Index() {
       .catch(console.error);
   }, []);
 
+  console.log({ nodes, edges });
+
   return (
     <View
       style={{
