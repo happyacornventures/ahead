@@ -6,7 +6,7 @@ use serde_json::{json, Value};
 use tauri::Manager;
 
 mod hermenia;
-use hermenia::Machine;
+use hermenia::{Machine, hydrate_event};
 
 fn node_reducer(state: Value, event: Value) -> Value {
     let mut new_state = state.clone();
