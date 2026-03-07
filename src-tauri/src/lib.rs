@@ -88,7 +88,7 @@ fn dispatch(
 ) -> String {
     println!("Dispatching event: {}", event);
     let hydrated_event = hydrate_event(event.clone(), payload.as_deref().unwrap_or("{}"));
-    let data = machine.other_consume(hydrated_event);
+    let data = machine.consume(hydrated_event);
     serde_json::to_string(&data).unwrap()
 }
 
