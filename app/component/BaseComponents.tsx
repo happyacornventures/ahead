@@ -226,7 +226,7 @@ const BaseListItem = ({
         <Text>{(node as Record<string, unknown>)?.[targetKey]}</Text>
       )}
       {node.actions &&
-        Object.entries(node.actions).map(([key, action]) => (
+        Object.entries(node.actions ?? {}).map(([key, action]) => (
           <Button
             theme="red"
             size="$2"
