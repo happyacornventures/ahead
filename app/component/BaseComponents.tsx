@@ -263,10 +263,14 @@ export const BaseList = ({
   </View>
 );
 
-export const BaseDetails = ({ node }: { node: Record<string, unknown> }) => (
-  <>
-    {Object.entries(node ?? {}).map(([key, value]) => (
-      <ListItem key={key}>{`${key}: ${value}`}</ListItem>
-    ))}
-  </>
-);
+export const BaseDetails = ({ node }: { node: Record<string, unknown> }) => {
+  console.log("BaseDetails node:", node);
+
+  return (
+    <>
+      {Object.entries(node ?? {}).map(([key, value]) => (
+        <ListItem key={key}>{`${key}: ${value}`}</ListItem>
+      ))}
+    </>
+  );
+};
