@@ -105,9 +105,11 @@ const BaseFormField = ({
 export const BaseForm = ({
   schema,
   onSubmit,
+  onChange = () => {},
 }: {
   schema: Record<string, unknown>;
   onSubmit: (values: Record<string, unknown>) => void;
+  onChange?: (values: Record<string, unknown>) => void;
 }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({});
 
