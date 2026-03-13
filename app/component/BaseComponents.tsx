@@ -1,5 +1,5 @@
 import { X } from "@tamagui/lucide-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -116,6 +116,12 @@ export const BaseForm = ({
   const handleChange = (key: string, value: unknown) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(formData);
+    }
+  }, [formData]);
 
   return (
     <>
