@@ -133,7 +133,7 @@ export const BaseForm = ({
         }}
       >
         {schema.properties &&
-          Object.entries(schema.properties)
+          Object.entries(schema.properties ?? {})
             .filter(([key, property]) => property.visible ?? true)
             .map(([key, property]) =>
               property.type === "search" ? (
